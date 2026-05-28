@@ -1,0 +1,434 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique Admin Panel - Add Product</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'adminpanel/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'adminpanel/css/products.css' %}">
+    <link rel="stylesheet" href="{% static 'adminpanel/css/add-product.css' %}">
+</head>
+
+<body>
+    <div class="admin-panel">
+        {% include 'adminpanel/includes/sidebar.html' %}
+
+        <main class="main-content">
+            <header class="main-header header-with-back-btn">
+                <a href="{% url 'admin_products' %}" class="btn btn-secondary btn-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back
+                </a>
+                <h1>Add New Product</h1>
+            </header>
+
+            <div class="page-content active" id="add-product-page">
+                <form id="newProductForm" class="form-container">
+
+                    <!-- Main Product Information -->
+                    <section class="form-card">
+                        <div class="card-header">
+                            <h3>Product Information</h3>
+                        </div>
+                        <div class="card-body form-grid-2col">
+                            <div class="form-group">
+                                <label for="productName">Product Name</label>
+                                <input type="text" id="productName" name="productName" placeholder="Enter product name"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productCode">Product Code</label>
+                                <input type="text" id="productCode" name="productCode" placeholder="Enter product code">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productSku">Product SKU</label>
+                                <input type="text" id="productSku" name="productSku" placeholder="Enter SKU">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productQuantity">Quantity</label>
+                                <input type="number" id="productQuantity" name="productQuantity"
+                                    placeholder="Enter quantity" min="0" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productCategory">Category</label>
+                                <select id="productCategory" name="productCategory" required>
+                                    <option value="women">Women</option>
+                                    <option value="kid">Kids</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="subCategoryGroup" style="display: none;">
+                                <label id="subCategoryLabel" for="subCategory">Sub-Category</label>
+                                <select id="subCategory" name="subCategory">
+                                    <option value="" disabled selected>Select Sub-Category</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productFabric">Fabric</label>
+                                <select id="productFabric" name="productFabric" required>
+                                    <option value="" disabled selected>Select Fabric</option>
+                                    <option value="georgette">Georgette</option>
+                                    <option value="cotton">Cotton</option>
+                                    <option value="silk">Silk</option>
+                                    <option value="velvet">Velvet</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <input type="text" id="customFabric" name="customFabric"
+                                    placeholder="Enter custom fabric" style="display:none; margin-top:8px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productColors">Colors</label>
+                                <input type="text" id="productColors" name="productColors"
+                                    placeholder="e.g., Red, Blue, Black">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productTags">Tags</label>
+                                <input type="text" id="productTags" name="productTags" placeholder="Enter tags">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <div class="checkbox-group">
+                                    <label><input type="radio" name="gender" value="women"> Women</label>
+                                    <label><input type="radio" name="gender" value="kids"> Kids</label>
+                                    <!-- <label><input type="radio" name="gender" value="unisex"> Unisex</label> -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sizeChartType">Size Chart Type</label>
+                                <select id="sizeChartType" name="sizeChartType">
+                                    <option value="none">No Size Chart</option>
+                                    <option value="women_general">Women - General Size Chart</option>
+                                    <option value="women_blouse">Women - Blouse Size Chart</option>
+                                    <option value="kids">Kids - Size Chart</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="subDescription">Description</label>
+                                <textarea id="subDescription" name="subDescription" rows="3"
+                                    placeholder="Enter product description" class="large-textarea"></textarea>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="styleFit">Style / Fit</label>
+                                <textarea id="styleFit" name="styleFit" rows="3"
+                                    placeholder="e.g., Slim fit with modern cut, lightweight fabric..."
+                                    class="large-textarea"></textarea>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="shippingReturn">Shipping / Return Policy</label>
+                                <textarea id="shippingReturn" name="shippingReturn" rows="3"
+                                    placeholder="e.g., Free shipping within 7 days. Easy 7-day returns policy..."
+                                    class="large-textarea"></textarea>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Product Images -->
+                    <section class="form-card">
+                        <div class="card-header">
+                            <h3>Product Images</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group" style="margin-top: 20px;">
+                                <label>Additional Images (Drag & Drop)</label>
+                                <div class="form-group-file" id="image-drop-zone"
+                                    style="border: 2px dashed var(--border-color); padding: 24px; border-radius: 8px; text-align: center;">
+                                    <input type="file" id="productImage" name="productImage" accept="image/*" multiple>
+                                    <label for="productImage" class="btn btn-secondary">Browse your device</label>
+                                    <span id="fileName" style="display: block; margin-top: 12px;">or drag files
+                                        here</span>
+                                </div>
+                                <div id="image-preview-container" class="image-preview-container"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Upload 3 Product Images</label>
+                                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                    <div class="thumb-wrapper"
+                                        style="width:100px; height:100px; border:1px dashed #ccc; border-radius:8px; text-align:center; display:flex; flex-direction:column; justify-content:center; cursor:pointer; position: relative;">
+                                        <input type="file" name="thumbnail1" id="productImage1" accept="image/*"
+                                            style="display:none;">
+                                        <label for="productImage1"
+                                            style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer;">
+                                            <img id="preview1" src="{% static 'adminpanel/images/no-image.png' %}"
+                                                style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
+                                            <small>Upload</small>
+                                        </label>
+                                        <button type="button" id="removeThumb1" class="remove-thumb-btn"
+                                            data-target="thumbnail1"
+                                            style="display:none; position:absolute; top:-8px; right:-8px; background:#ff4444; color:white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer; font-weight:bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">×</button>
+                                    </div>
+                                    <div class="thumb-wrapper"
+                                        style="width:100px; height:100px; border:1px dashed #ccc; border-radius:8px; text-align:center; display:flex; flex-direction:column; justify-content:center; cursor:pointer; position: relative;">
+                                        <input type="file" name="thumbnail2" id="productImage2" accept="image/*"
+                                            style="display:none;">
+                                        <label for="productImage2"
+                                            style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer;">
+                                            <img id="preview2" src="{% static 'adminpanel/images/no-image.png' %}"
+                                                style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
+                                            <small>Upload</small>
+                                        </label>
+                                        <button type="button" id="removeThumb2" class="remove-thumb-btn"
+                                            data-target="thumbnail2"
+                                            style="display:none; position:absolute; top:-8px; right:-8px; background:#ff4444; color:white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer; font-weight:bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">×</button>
+                                    </div>
+                                    <div class="thumb-wrapper"
+                                        style="width:100px; height:100px; border:1px dashed #ccc; border-radius:8px; text-align:center; display:flex; flex-direction:column; justify-content:center; cursor:pointer; position: relative;">
+                                        <input type="file" name="thumbnail3" id="productImage3" accept="image/*"
+                                            style="display:none;">
+                                        <label for="productImage3"
+                                            style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer;">
+                                            <img id="preview3" src="{% static 'adminpanel/images/no-image.png' %}"
+                                                style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
+                                            <small>Upload</small>
+                                        </label>
+                                        <button type="button" id="removeThumb3" class="remove-thumb-btn"
+                                            data-target="thumbnail3"
+                                            style="display:none; position:absolute; top:-8px; right:-8px; background:#ff4444; color:white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer; font-weight:bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">×</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </section>
+
+                    <!-- Product Variants & Pricing -->
+                    <section class="form-card">
+                        <div class="card-header">
+                            <h3>Product Variants & Pricing</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- Variant Type Switcher -->
+                            <div class="variant-type-switcher" style="margin-bottom: 20px; display: flex; gap: 20px;">
+                                <label class="radio-label">
+                                    <input type="radio" name="variantType" value="sized" checked>
+                                    Size Based (S, M, L, XL, XXL)
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="variantType" value="free">
+                                    Single Variant / Free Size
+                                </label>
+                            </div>
+
+                            <!-- Hidden input for sizes -->
+                            <input type="hidden" name="sizes" id="sizesInput" value="">
+
+                            <!-- Currency Selector -->
+                            <div style="margin-bottom: 15px;">
+                                <label for="inputCurrency">Currency</label>
+                                <select id="inputCurrency"
+                                    style="width: 150px; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color);">
+                                    <option value="usd">USD</option>
+                                    <option value="cad">CAD</option>
+                                </select>
+                            </div>
+
+                            <!-- SIZE BASED CONTAINER -->
+                            <div id="sizeBasedContainer">
+                                <table class="size-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Size</th>
+                                            <th>Quantity (Stock)</th>
+                                            <th id="priceHeader">Price ($)</th>
+                                            <th>Discount (%)</th>
+                                            <th>Sale Label</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>S</strong></td>
+                                            <td><input type="number" name="stock_s" min="0" placeholder="Qty"
+                                                    class="size-input"></td>
+                                            <td><input type="number" name="price_s" min="0" step="0.01"
+                                                    placeholder="Price" class="size-input"></td>
+                                            <td><input type="number" name="discount_s" min="0" max="100" placeholder="%"
+                                                    class="size-input"></td>
+                                            <td class="sale-label-cell">
+                                                <div class="sale-wrapper">
+                                                    <label class="switch small-switch">
+                                                        <input type="checkbox" name="is_sale_s" id="saleToggle_s">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <input type="text" name="sale_label_s" id="saleLabel_s"
+                                                        placeholder="Label (e.g. HOT)" class="size-input sale-input"
+                                                        disabled>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>M</strong></td>
+                                            <td><input type="number" name="stock_m" min="0" placeholder="Qty"
+                                                    class="size-input"></td>
+                                            <td><input type="number" name="price_m" min="0" step="0.01"
+                                                    placeholder="Price" class="size-input"></td>
+                                            <td><input type="number" name="discount_m" min="0" max="100" placeholder="%"
+                                                    class="size-input"></td>
+                                            <td class="sale-label-cell">
+                                                <div class="sale-wrapper">
+                                                    <label class="switch small-switch">
+                                                        <input type="checkbox" name="is_sale_m" id="saleToggle_m">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <input type="text" name="sale_label_m" id="saleLabel_m"
+                                                        placeholder="Label" class="size-input sale-input" disabled>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>L</strong></td>
+                                            <td><input type="number" name="stock_l" min="0" placeholder="Qty"
+                                                    class="size-input"></td>
+                                            <td><input type="number" name="price_l" min="0" step="0.01"
+                                                    placeholder="Price" class="size-input"></td>
+                                            <td><input type="number" name="discount_l" min="0" max="100" placeholder="%"
+                                                    class="size-input"></td>
+                                            <td class="sale-label-cell">
+                                                <div class="sale-wrapper">
+                                                    <label class="switch small-switch">
+                                                        <input type="checkbox" name="is_sale_l" id="saleToggle_l">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <input type="text" name="sale_label_l" id="saleLabel_l"
+                                                        placeholder="Label" class="size-input sale-input" disabled>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>XL</strong></td>
+                                            <td><input type="number" name="stock_xl" min="0" placeholder="Qty"
+                                                    class="size-input"></td>
+                                            <td><input type="number" name="price_xl" min="0" step="0.01"
+                                                    placeholder="Price" class="size-input"></td>
+                                            <td><input type="number" name="discount_xl" min="0" max="100"
+                                                    placeholder="%" class="size-input"></td>
+                                            <td class="sale-label-cell">
+                                                <div class="sale-wrapper">
+                                                    <label class="switch small-switch">
+                                                        <input type="checkbox" name="is_sale_xl" id="saleToggle_xl">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <input type="text" name="sale_label_xl" id="saleLabel_xl"
+                                                        placeholder="Label" class="size-input sale-input" disabled>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>XXL</strong></td>
+                                            <td><input type="number" name="stock_xxl" min="0" placeholder="Qty"
+                                                    class="size-input"></td>
+                                            <td><input type="number" name="price_xxl" min="0" step="0.01"
+                                                    placeholder="Price" class="size-input"></td>
+                                            <td><input type="number" name="discount_xxl" min="0" max="100"
+                                                    placeholder="%" class="size-input"></td>
+                                            <td class="sale-label-cell">
+                                                <div class="sale-wrapper">
+                                                    <label class="switch small-switch">
+                                                        <input type="checkbox" name="is_sale_xxl" id="saleToggle_xxl">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <input type="text" name="sale_label_xxl" id="saleLabel_xxl"
+                                                        placeholder="Label" class="size-input sale-input" disabled>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- FREE SIZE CONTAINER -->
+                            <div id="freeSizeContainer" style="display: none;">
+                                <table class="size-table">
+                                    <thead>
+                                        <tr>
+                                            <th>SIZE</th>
+                                            <th>Quantity (Stock)</th>
+                                            <th>Price ($)</th>
+                                            <th>Discount (%)</th>
+                                            <th>Sale Label</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Free Size</strong></td>
+                                            <td><input type="number" name="stock_s" id="free_stock" min="0"
+                                                    placeholder="Qty" class="size-input"></td>
+                                            <td><input type="number" name="price_s" id="free_price" min="0" step="0.01"
+                                                    placeholder="Price" class="size-input"></td>
+                                            <td><input type="number" name="discount_s" id="free_discount" min="0"
+                                                    max="100" placeholder="%" class="size-input"></td>
+                                            <td class="sale-label-cell">
+                                                <div class="sale-wrapper">
+                                                    <label class="switch small-switch">
+                                                        <input type="checkbox" name="is_sale_s" id="free_is_sale">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <input type="text" name="sale_label_s" id="free_sale_label"
+                                                        placeholder="Label (e.g. HOT)" class="size-input sale-input"
+                                                        disabled>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p style="color: #666; font-size: 0.875rem; margin-top: 12px; font-style: italic;">
+                                    * For "Single Variant / Free Size" products, data is stored effectively as a single
+                                    unit (S).
+                                </p>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 20px;">
+                                <div class="form-group-inline">
+                                    <label class="switch">
+                                        <input type="checkbox" id="allowCoupons" name="allowCoupons" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <label for="allowCoupons">Allow Coupons on this Product</label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer class="form-footer form-card">
+                        <div class="form-footer-actions">
+                            <div class="form-group-inline">
+                                <label class="switch">
+                                    <input type="checkbox" id="publishToggle" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                <label for="publishToggle">Publish</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create product</button>
+                        </div>
+                    </footer>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    {% csrf_token %}
+
+    <script src="{% static 'adminpanel/js/add-product.js' %}?v=4"></script>
+    <script src="{% static 'adminpanel/js/global.js' %}"></script>
+
+</body>
+
+</html>
